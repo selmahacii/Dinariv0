@@ -21,15 +21,26 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install required Android packages
+        run: |
+          sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "ndk;27.0.12077973" "platform-tools"
+          yes | sdkmanager --licenses || true
+
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
+          flutter-version: 3.44.9
 
+      - run: flutter --version
       - run: flutter pub get
 
       # Signé avec la clé debug (installable pour du test).
-      # Pour signer avec la vraie clé : committer android/key.properties + le .jks
-      # via des secrets, ou builder en local (voir DEPLOYMENT.md).
+      # Pour signer avec la vraie clé de release : ajouter les secrets du dépôt
+      #   KEYSTORE_BASE64 / KEYSTORE_PASSWORD / KEY_PASSWORD / KEY_ALIAS
+      # et restaurer android/key.properties + le .jks ici (voir DEPLOYMENT.md).
       - run: flutter build apk --release --split-per-abi
 
       - name: Rename artifacts
