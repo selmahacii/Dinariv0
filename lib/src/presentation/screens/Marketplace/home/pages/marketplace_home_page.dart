@@ -124,26 +124,39 @@ class _MarketplaceHomePageState extends State<MarketplaceHomePage> {
                 if (searchQuery.isEmpty) ...[
                   ScrollbarCardWidget(adsItems: ads),
                   8.verticalSpace,
-                  SizedBox(
-                    width: double.infinity,
-                    height: 250,
-                    child: GridView.builder(
-                      padding: const EdgeInsets.all(0),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 1.1,
-                            crossAxisSpacing: 0,
-                            mainAxisSpacing: 0,
+                  if (categories.isNotEmpty) ...[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: REdgeInsets.symmetric(horizontal: 12),
+                        child: Text(
+                          'Catégories',
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
                           ),
-                      itemCount: categories.length,
-                      itemBuilder: (context, index) {
-                        return CategoryCard(category: categories[index]);
-                      },
+                        ),
+                      ),
                     ),
-                  ),
+                    8.verticalSpace,
+                    SizedBox(
+                      width: double.infinity,
+                      height: 118.h,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        padding: REdgeInsets.symmetric(horizontal: 12),
+                        itemCount: categories.length,
+                        separatorBuilder: (_, __) => SizedBox(width: 16.w),
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                            width: 78.w,
+                            child: CategoryCard(category: categories[index]),
+                          );
+                        },
+                      ),
+                    ),
+                    16.verticalSpace,
+                  ],
                   _buildSection(
                     title: 'publicité',
                     viewAllText: 'Voir tout',

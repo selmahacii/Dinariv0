@@ -33,7 +33,7 @@ class _ScrollbarCardWidgetState extends State<ScrollbarCardWidget> {
                 // margin: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
-                  color: Colors.black,
+                  color: const Color(0xFFE0E0E0),
                   image: DecorationImage(
                     image: NetworkImage(widget.adsItems[index].imageUrl),
                     fit: BoxFit.cover,

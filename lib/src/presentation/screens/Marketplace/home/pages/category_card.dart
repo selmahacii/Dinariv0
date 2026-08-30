@@ -19,13 +19,31 @@ class CategoryCard extends StatelessWidget {
           Container(
             width: 70,
             height: 70,
-            decoration: BoxDecoration(
+            clipBehavior: Clip.antiAlias,
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              image: DecorationImage(
-                image: NetworkImage(category.imageUrl),
-                fit: BoxFit.cover,
-              ),
+              color: Color(0xFFE0E0E0),
             ),
+            child: category.imageUrl.isEmpty
+                ? const Icon(Icons.category, color: Colors.white)
+                : Image.network(
+                    category.imageUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) =>
+                        const Icon(Icons.category, color: Colors.white),
+                    loadingBuilder: (context, child, progress) =>
+                        progress == null
+                            ? child
+                            : const Center(
+                                child: SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              ),
+                  ),
           ),
           // ),
           const SizedBox(height: 8),
