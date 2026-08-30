@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Profil utilisateur + sous-collections (operations, ...)
+    match /users/{uid} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null && request.auth.uid == uid;
+
+      match /{document=**} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+    }
+
+    // Catalogue : lecture publique, écriture réservée aux utilisateurs connectés
+    match /categories/{id}     { allow read: if true; allow write: if request.auth != null; }
+    match /products/{id}       { allow read: if true; allow write: if request.auth != null; }
+    match /advertisements/{id} { allow read: if true; allow write: if request.auth != null; }
+
+    // Données applicatives réservées aux utilisateurs connectés
+    match /app_meta/{id}        { allow read, write: if request.auth != null; }
+    match /chats/{id}           { allow read, write: if request.auth != null; }
+    match /messages/{id}        { allow read, write: if request.auth != null; }
+    match /contacts/{id}        { allow read, write: if request.auth != null; }
+    match /operations/{id}      { allow read, write: if request.auth != null; }
+    match /presence/{id}        { allow read, write: if request.auth != null; }
+    match /recharge_codes/{id}  { allow read, write: if request.auth != null; }
+  }
+}

@@ -1,1 +1,27 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"chatapp-d6ae5","appId":"1:943125011642:android:8b78ad7e76265f74443683","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"chatapp-d6ae5","configurations":{"android":"1:943125011642:android:8b78ad7e76265f74443683"}}}}}}
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "dinariv0",
+          "appId": "1:105595501715:android:35ce9de6d69f6d2fc16166",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/src/core/config/firebase/firebase_options.dart": {
+          "projectId": "dinariv0",
+          "configurations": {
+            "android": "1:105595501715:android:35ce9de6d69f6d2fc16166"
+          }
+        }
+      }
+    }
+  }
+}

@@ -51,13 +51,12 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBqcU_XHMb0MHOHiTtEtVTs59RrUFd8yN4',
-    appId: '1:943125011642:android:8b78ad7e76265f74443683',
-    messagingSenderId: '943125011642',
-    projectId: 'chatapp-d6ae5',
-    storageBucket: 'chatapp-d6ae5.appspot.com',
+    apiKey: 'AIzaSyAzXpLQIkuGb0dFLp9fw1nHq_OCR9Kq-s0',
+    appId: '1:105595501715:android:35ce9de6d69f6d2fc16166',
+    messagingSenderId: '105595501715',
+    projectId: 'dinariv0',
+    storageBucket: 'dinariv0.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBEIkf6yRaM_EQW5cNKH3PfQXhsM4TFh38',
     appId: '1:994002156268:ios:520ca7deeb4a82fdd083c9',
