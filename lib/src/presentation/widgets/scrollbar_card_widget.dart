@@ -16,6 +16,8 @@ class _ScrollbarCardWidgetState extends State<ScrollbarCardWidget> {
   int current = 0;
   @override
   Widget build(BuildContext context) {
+    // carousel_slider lève un RangeError si itemCount == 0 avec infinite scroll.
+    if (widget.adsItems.isEmpty) return const SizedBox.shrink();
     double screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
       width: screenWidth,

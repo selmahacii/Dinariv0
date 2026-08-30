@@ -149,6 +149,11 @@ class TransactionHistoryWidget extends StatelessWidget {
         return Icons.arrow_downward;
       case 'Reception':
         return Icons.arrow_upward;
+      case 'Paiement':
+      case 'Achat':
+        return Icons.shopping_bag_outlined;
+      case 'Vente':
+        return Icons.sell_outlined;
       default:
         return Icons.swap_horiz;
     }

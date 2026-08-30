@@ -1,6 +1,7 @@
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:dinari/src/core/utils/constants/app_colors.dart';
+import 'package:dinari/src/core/utils/dev_seeder.dart';
 import 'package:dinari/src/core/utils/marketplace_image_seeder.dart';
 import 'package:dinari/src/core/utils/constants/app_images.dart';
 import 'package:dinari/src/core/utils/constants/app_svg.dart';
@@ -29,7 +30,12 @@ class _MarketplaceHomeState extends State<MarketplaceHome> {
   @override
   void initState() {
     super.initState();
-    MarketplaceImageSeeder.run();
+    _seed();
+  }
+
+  Future<void> _seed() async {
+    await DevSeeder.run();
+    await MarketplaceImageSeeder.run();
   }
 
   @override

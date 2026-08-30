@@ -4,8 +4,8 @@ A new Flutter project.
 
 ## 📱 Télécharger l'application (Android)
 
-APK prêt à installer : **[download/Dinari-v1.0.1-arm64.apk](download/Dinari-v1.0.1-arm64.apk)**
-→ lien direct : https://github.com/selmahacii/Dinariv0/raw/main/download/Dinari-v1.0.1-arm64.apk
+APK prêt à installer : **[download/Dinari-v1.0.2-arm64.apk](download/Dinari-v1.0.2-arm64.apk)**
+→ lien direct : https://github.com/selmahacii/Dinariv0/raw/main/download/Dinari-v1.0.2-arm64.apk
 
 Instructions d'installation + compte de test (`azzougsadek2@gmail.com` / `10000DA`) : voir **[download/README.md](download/README.md)**.
 Backend : Firebase **`dinariv0`** (Auth + Firestore + Storage).

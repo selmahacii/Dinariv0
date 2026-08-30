@@ -24,20 +24,29 @@ class _AccueilPageState extends State<AccueilPage> {
     _seedFakeOperationsIfEmpty();
   }
 
-  /// Insère un historique de transactions fictif la première fois
-  /// (uniquement si la sous-collection `operations` est vide).
+  /// Version courante de l'historique fictif. Incrémenter pour forcer un
+  /// re-remplissage chez les comptes déjà semés.
+  static const int _opsSeedVersion = 2;
+
+  /// Insère (ou met à jour) un historique de transactions fictif :
+  /// recharges, envois, réceptions, transferts + historique d'achats et de
+  /// ventes, chacun avec un numéro de référence pour la traçabilité.
   Future<void> _seedFakeOperationsIfEmpty() async {
     try {
       final uid = FirebaseAuth.instance.currentUser?.uid;
       if (uid == null) return;
 
-      final opsRef = FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .collection('operations');
+      final userRef =
+          FirebaseFirestore.instance.collection('users').doc(uid);
+      final opsRef = userRef.collection('operations');
 
-      final existing = await opsRef.limit(1).get();
-      if (existing.docs.isNotEmpty) return;
+      final userSnap = await userRef.get();
+      final currentVersion =
+          (userSnap.data()?['opsSeedVersion'] ?? 0) as int;
+      if (currentVersion >= _opsSeedVersion) return;
+
+      // Nettoyage de l'ancien historique fictif avant re-remplissage.
+      final existingOps = await opsRef.get();
 
       final now = DateTime.now();
       final fake = <Map<String, dynamic>>[
@@ -90,12 +99,61 @@ class _AccueilPageState extends State<AccueilPage> {
           'reference': 'ENV-88012',
           'timestamp': Timestamp.fromDate(now.subtract(const Duration(days: 12, hours: 9))),
         },
+        // --- Historique d'achats ---
+        {
+          'type': 'Achat',
+          'amount': -8999.0,
+          'counterparty': 'Yacine Belkacem · Kawasaki Z900',
+          'reference': 'PUR-20451',
+          'timestamp': Timestamp.fromDate(now.subtract(const Duration(days: 4, hours: 5))),
+        },
+        {
+          'type': 'Achat',
+          'amount': -1299.0,
+          'counterparty': 'Boutique El Djazaïr · Dell XPS 13',
+          'reference': 'PUR-20512',
+          'timestamp': Timestamp.fromDate(now.subtract(const Duration(days: 9, hours: 2))),
+        },
+        {
+          'type': 'Achat',
+          'amount': -159.0,
+          'counterparty': 'Amine Torki · Robe de soirée',
+          'reference': 'PUR-20588',
+          'timestamp': Timestamp.fromDate(now.subtract(const Duration(days: 15, hours: 7))),
+        },
+        // --- Historique de ventes ---
+        {
+          'type': 'Vente',
+          'amount': 7499.0,
+          'counterparty': 'Karim Meziane · Yamaha MT-07',
+          'reference': 'SAL-30177',
+          'timestamp': Timestamp.fromDate(now.subtract(const Duration(days: 6, hours: 3))),
+        },
+        {
+          'type': 'Vente',
+          'amount': 2499.0,
+          'counterparty': 'Sofiane Haddad · Canon EOS R6',
+          'reference': 'SAL-30240',
+          'timestamp': Timestamp.fromDate(now.subtract(const Duration(days: 11, hours: 1))),
+        },
+        {
+          'type': 'Vente',
+          'amount': 499.0,
+          'counterparty': 'Nadia Cherif · Bureau design industriel',
+          'reference': 'SAL-30312',
+          'timestamp': Timestamp.fromDate(now.subtract(const Duration(days: 18, hours: 6))),
+        },
       ];
 
       final batch = FirebaseFirestore.instance.batch();
+      for (final doc in existingOps.docs) {
+        batch.delete(doc.reference);
+      }
       for (final op in fake) {
         batch.set(opsRef.doc(), op);
       }
+      batch.set(userRef, {'opsSeedVersion': _opsSeedVersion},
+          SetOptions(merge: true));
       await batch.commit();
     } catch (e) {
       debugPrint('=> Erreur seed operations fictives : $e');
