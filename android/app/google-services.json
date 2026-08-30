@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "943125011642",
+    "project_id": "chatapp-d6ae5",
+    "storage_bucket": "chatapp-d6ae5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943125011642:android:8b78ad7e76265f74443683",
+        "android_client_info": {
+          "package_name": "com.example.dinari"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqcU_XHMb0MHOHiTtEtVTs59RrUFd8yN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
