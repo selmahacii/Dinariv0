@@ -47,7 +47,9 @@ class _ChargeScreenState extends State<ChargeScreen> {
       ),
       body: GradiantWidget(
         widget: SafeArea(
-          child: Column(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 24),
+            child: Column(
             children: [
               32.verticalSpace,
               Text(
@@ -109,6 +111,7 @@ class _ChargeScreenState extends State<ChargeScreen> {
                 ),
               ),
             ],
+            ),
           ),
         ),
       ),

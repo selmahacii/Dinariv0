@@ -164,13 +164,19 @@ class _ConnectScreenState extends State<ConnectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: GradiantWidget(
-        widget: SizedBox(
-          width: 327.w,
-          height: 516.h,
-          child: Center(
-            child: Form(
+        widget: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              constraints: BoxConstraints(
+                minHeight: 1.sh -
+                    MediaQuery.of(context).padding.vertical -
+                    MediaQuery.of(context).viewInsets.bottom,
+              ),
+              width: 327.w,
+              alignment: Alignment.center,
+              child: Form(
               key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -252,6 +258,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
           ),
         ),
       ),
+    ),
     );
   }
 }

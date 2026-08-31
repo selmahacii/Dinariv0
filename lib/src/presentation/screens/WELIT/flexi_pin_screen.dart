@@ -29,7 +29,7 @@ class _FlexiPinScreenState extends State<FlexiPinScreen> {
     _pinFocusNode.unfocus();
     if (!_formKey.currentState!.validate()) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Code PIN saisi : ${_pinController.text.trim()}')),
+      SnackBar(content: Text('Code saisi : ${_pinController.text.trim()}')),
     );
   }
 
@@ -47,8 +47,10 @@ class _FlexiPinScreenState extends State<FlexiPinScreen> {
       ),
       body: GradiantWidget(
         widget: SafeArea(
-          child: Column(
-            children: [
+          child: SingleChildScrollView(
+            padding: REdgeInsets.only(bottom: 24),
+            child: Column(
+              children: [
               32.verticalSpace,
               Text(
                 'Dinari : Solde disponible',
@@ -86,7 +88,7 @@ class _FlexiPinScreenState extends State<FlexiPinScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Code PIN',
+                        'Code',
                         style: TextStyle(
                           color: const Color(0xFF01796F),
                           fontWeight: FontWeight.w600,
@@ -105,7 +107,7 @@ class _FlexiPinScreenState extends State<FlexiPinScreen> {
                         ],
                         decoration: InputDecoration(
                           counterText: '',
-                          hintText: 'Saisir le code PIN',
+                          hintText: 'Saisir le code',
                           hintStyle: TextStyle(color: Colors.grey[400]),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -122,10 +124,10 @@ class _FlexiPinScreenState extends State<FlexiPinScreen> {
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Veuillez saisir le code PIN';
+                            return 'Veuillez saisir le code';
                           }
                           if (value.trim().length < 4) {
-                            return 'Le code PIN doit contenir au moins 4 chiffres';
+                            return 'Le code doit contenir au moins 4 chiffres';
                           }
                           return null;
                         },
@@ -151,6 +153,7 @@ class _FlexiPinScreenState extends State<FlexiPinScreen> {
                 ),
               ),
             ],
+            ),
           ),
         ),
       ),
