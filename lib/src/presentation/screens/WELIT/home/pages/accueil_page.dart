@@ -26,7 +26,10 @@ class _AccueilPageState extends State<AccueilPage> {
 
   /// Version courante de l'historique fictif. Incrémenter pour forcer un
   /// re-remplissage chez les comptes déjà semés.
-  static const int _opsSeedVersion = 2;
+  static const int _opsSeedVersion = 3;
+
+  /// Solde de démonstration crédité au compte lors du semis.
+  static const double _demoBalance = 1000.0;
 
   /// Insère (ou met à jour) un historique de transactions fictif :
   /// recharges, envois, réceptions, transferts + historique d'achats et de
@@ -152,8 +155,11 @@ class _AccueilPageState extends State<AccueilPage> {
       for (final op in fake) {
         batch.set(opsRef.doc(), op);
       }
-      batch.set(userRef, {'opsSeedVersion': _opsSeedVersion},
-          SetOptions(merge: true));
+      batch.set(
+        userRef,
+        {'opsSeedVersion': _opsSeedVersion, 'sold': _demoBalance},
+        SetOptions(merge: true),
+      );
       await batch.commit();
     } catch (e) {
       debugPrint('=> Erreur seed operations fictives : $e');
