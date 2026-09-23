@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dinari/src/database/local/shared_preferences_service.dart';
 import 'package:dinari/src/presentation/widgets/gradiant_widget.dart';
 import 'package:dinari/src/presentation/widgets/sold_widget.dart';
@@ -17,6 +19,7 @@ class _FlexiPinScreenState extends State<FlexiPinScreen> {
   final TextEditingController _pinController = TextEditingController();
   final FocusNode _pinFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
+  bool _isProcessing = false;
 
   @override
   void dispose() {
@@ -25,12 +28,122 @@ class _FlexiPinScreenState extends State<FlexiPinScreen> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     _pinFocusNode.unfocus();
     if (!_formKey.currentState!.validate()) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Code saisi : ${_pinController.text.trim()}')),
-    );
+    if (_isProcessing) return;
+
+    final enteredCode = _pinController.text.trim();
+
+    setState(() {
+      _isProcessing = true;
+    });
+
+    try {
+      final codeSnapshot = await FirebaseFirestore.instance
+          .collection('recharge_codes')
+          .doc(enteredCode)
+          .get();
+
+      if (!codeSnapshot.exists) {
+        if (mounted) {
+          setState(() {
+            _isProcessing = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Code invalide')),
+          );
+        }
+        return;
+      }
+
+      final codeSnapshotData = codeSnapshot.data() as Map<String, dynamic>;
+
+      if (codeSnapshotData['isUsed'] == true) {
+        if (mounted) {
+          setState(() {
+            _isProcessing = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Ce code a déjà été utilisé')),
+          );
+        }
+        return;
+      }
+
+      if (codeSnapshotData['expiresAt'] != null) {
+        DateTime expiryDate =
+            (codeSnapshotData['expiresAt'] as Timestamp).toDate();
+        if (expiryDate.isBefore(DateTime.now())) {
+          if (mounted) {
+            setState(() {
+              _isProcessing = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Ce code a expiré')),
+            );
+          }
+          return;
+        }
+      }
+
+      double amount = double.parse(codeSnapshotData['amount'].toString());
+      final currentUid = FirebaseAuth.instance.currentUser?.uid;
+
+      if (currentUid != null) {
+        await FirebaseFirestore.instance
+            .collection('recharge_codes')
+            .doc(codeSnapshot.id)
+            .update({
+              'isUsed': true,
+              'userID': currentUid,
+              'updatedAt': FieldValue.serverTimestamp(),
+            });
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUid)
+            .update({
+              'sold': FieldValue.increment(amount),
+            });
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUid)
+            .collection('operations')
+            .add({
+              'amount': amount,
+              'type': 'Recharge',
+              'counterparty': 'Flexi Dinari',
+              'reference': 'FLX-${DateTime.now().millisecondsSinceEpoch}',
+              'timestamp': FieldValue.serverTimestamp(),
+            });
+      }
+
+      _pinController.clear();
+
+      if (mounted) {
+        setState(() {
+          _isProcessing = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Votre compte a été rechargé de ${amount.toStringAsFixed(2)} DZD',
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isProcessing = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erreur: ${e.toString()}')),
+        );
+      }
+    }
   }
 
   @override
@@ -66,7 +179,7 @@ class _FlexiPinScreenState extends State<FlexiPinScreen> {
               SoldWidget(),
               8.verticalSpace,
               Text(
-                'Bonjour, ${user.fullName.split(' ').first}',
+                'Bonjour, ${(user.fullName.trim().isNotEmpty) ? user.fullName.trim().split(' ').first : ''}',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 25.sp,
@@ -136,7 +249,7 @@ class _FlexiPinScreenState extends State<FlexiPinScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: _submit,
+                          onPressed: _isProcessing ? null : _submit,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF2A9D8F),
                             foregroundColor: Colors.white,
@@ -145,7 +258,16 @@ class _FlexiPinScreenState extends State<FlexiPinScreen> {
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
-                          child: const Text('Confirmer'),
+                          child: _isProcessing
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : const Text('Confirmer'),
                         ),
                       ),
                     ],

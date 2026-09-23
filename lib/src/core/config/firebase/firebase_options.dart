@@ -41,13 +41,12 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCvCd77Db_VyNm8pF5--1F8HTd4qY2UxZI',
-    appId: '1:994002156268:web:853933afcae73255d083c9',
-    messagingSenderId: '994002156268',
-    projectId: 'dinari-app-d1162',
-    authDomain: 'dinari-app-d1162.firebaseapp.com',
-    storageBucket: 'dinari-app-d1162.firebasestorage.app',
-    measurementId: 'G-B3XXG1QVSG',
+    apiKey: 'AIzaSyAzXpLQIkuGb0dFLp9fw1nHq_OCR9Kq-s0',
+    appId: '1:105595501715:web:35ce9de6d69f6d2fc16166',
+    messagingSenderId: '105595501715',
+    projectId: 'dinariv0',
+    authDomain: 'dinariv0.firebaseapp.com',
+    storageBucket: 'dinariv0.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -58,31 +57,30 @@ class DefaultFirebaseOptions {
     storageBucket: 'dinariv0.firebasestorage.app',
   );
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBEIkf6yRaM_EQW5cNKH3PfQXhsM4TFh38',
-    appId: '1:994002156268:ios:520ca7deeb4a82fdd083c9',
-    messagingSenderId: '994002156268',
-    projectId: 'dinari-app-d1162',
-    storageBucket: 'dinari-app-d1162.firebasestorage.app',
+    apiKey: 'AIzaSyAzXpLQIkuGb0dFLp9fw1nHq_OCR9Kq-s0',
+    appId: '1:105595501715:ios:35ce9de6d69f6d2fc16166',
+    messagingSenderId: '105595501715',
+    projectId: 'dinariv0',
+    storageBucket: 'dinariv0.firebasestorage.app',
     iosBundleId: 'com.example.dinari',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBEIkf6yRaM_EQW5cNKH3PfQXhsM4TFh38',
-    appId: '1:994002156268:ios:520ca7deeb4a82fdd083c9',
-    messagingSenderId: '994002156268',
-    projectId: 'dinari-app-d1162',
-    storageBucket: 'dinari-app-d1162.firebasestorage.app',
+    apiKey: 'AIzaSyAzXpLQIkuGb0dFLp9fw1nHq_OCR9Kq-s0',
+    appId: '1:105595501715:ios:35ce9de6d69f6d2fc16166',
+    messagingSenderId: '105595501715',
+    projectId: 'dinariv0',
+    storageBucket: 'dinariv0.firebasestorage.app',
     iosBundleId: 'com.example.dinari',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCvCd77Db_VyNm8pF5--1F8HTd4qY2UxZI',
-    appId: '1:994002156268:web:d646298231068fd1d083c9',
-    messagingSenderId: '994002156268',
-    projectId: 'dinari-app-d1162',
-    authDomain: 'dinari-app-d1162.firebaseapp.com',
-    storageBucket: 'dinari-app-d1162.firebasestorage.app',
-    measurementId: 'G-W1LJHDMPP5',
+    apiKey: 'AIzaSyAzXpLQIkuGb0dFLp9fw1nHq_OCR9Kq-s0',
+    appId: '1:105595501715:web:35ce9de6d69f6d2fc16166',
+    messagingSenderId: '105595501715',
+    projectId: 'dinariv0',
+    authDomain: 'dinariv0.firebaseapp.com',
+    storageBucket: 'dinariv0.firebasestorage.app',
   );
 
 }

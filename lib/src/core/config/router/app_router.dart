@@ -68,26 +68,26 @@ class AppRouter {
         routes: [
           //PaymentOptionsScreen
           GoRoute(
-            path: '/payment-options-welit',
+            path: 'payment-options-welit',
             builder: (context, state) => PaymentOptionsScreen(),
           ),
           //ChargeScreen
           GoRoute(
-            path: '/charge-welit',
+            path: 'charge-welit',
             builder: (context, state) => ChargeScreen(),
           ),
           //FlexiPinScreen
           GoRoute(
-            path: '/flexi-welit',
+            path: 'flexi-welit',
             builder: (context, state) => const FlexiPinScreen(),
           ),
           GoRoute(
-            path: '/contacts-welit',
+            path: 'contacts-welit',
             builder: (context, state) => ContactsScreen(),
           ),
           //MoneyTransferScreen
           GoRoute(
-            path: '/money-transfer-welit',
+            path: 'money-transfer-welit',
             builder: (context, state) {
               final userId = state.extra as String;
               return MoneyTransferScreen(userId: userId);
@@ -95,24 +95,24 @@ class AppRouter {
           ),
           //OperationsScreen
           GoRoute(
-            path: '/operations-welit',
+            path: 'operations-welit',
             builder: (context, state) => OperationsScreen(),
           ),
           //OperationDetailScreen
           GoRoute(
-            path: '/operation-detail-welit',
+            path: 'operation-detail-welit',
             builder: (context, state) => OperationDetailScreen(
               operation: state.extra as OperationModel,
             ),
           ),
           //VendorSpaceScreen
           GoRoute(
-            path: '/vendor-space-welit',
+            path: 'vendor-space-welit',
             builder: (context, state) => VendorSpaceScreen(),
             routes: [
               //DeliveryCompanySelectionScreen
               GoRoute(
-                path: '/delivery-company-selection-welit',
+                path: 'delivery-company-selection-welit',
                 builder: (context, state) => DeliveryCompanySelectionScreen(),
               ),
             ],
@@ -125,7 +125,7 @@ class AppRouter {
         routes: [
           //StorePackageSelectionScreen
           GoRoute(
-            path: '/store-package-selection-marketplace',
+            path: 'store-package-selection-marketplace',
             builder: (context, state) => StorePackageSelectionScreen(),
           ),
         ],
@@ -140,7 +140,7 @@ class AppRouter {
         builder: (context, state) => ProfileScreen(),
         routes: [
           GoRoute(
-            path: '/my-ads',
+            path: 'my-ads',
             builder: (context, state) => const MyAdsScreen(),
           ),
         ],
